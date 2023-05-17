@@ -62,6 +62,24 @@ void mat_sum(Matrix res, Matrix a, Matrix b)
     }
 }
 
+void mat_mult(Matrix res, Matrix a, Matrix b)
+{
+    NN_ASSERT(a.cols == b.rows);
+    NN_ASSERT(res.rows == a.rows && res.cols == b.cols);
+
+    for (int i = 0; i < res.rows; i++)
+    {
+        for (int j = 0; j < res.cols; j++)
+        {
+            MATRIX_POINT(res, i, j) = 0;
+            for (int k = 0; k < a.cols; k++)
+            {
+                MATRIX_POINT(res, i, j) += MATRIX_POINT(a, i, k) * MATRIX_POINT(b, k, j);
+            }
+        }
+    }
+}
+
 void mat_fill(Matrix res, float value)
 {
     for (int i = 0; i < res.rows; i++)
@@ -84,7 +102,7 @@ void mat_print(Matrix res, char *name)
         }
         printf("\n");
     }
-    printf("\n]");
+    printf("\n]\n");
 }
 
 #endif // NN_IMPLEMENTATION
